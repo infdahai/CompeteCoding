@@ -13,6 +13,28 @@ using namespace std;
 #define vec std::vector
 using ll = long long;
 
+vec<string> split_str(string is) {
+  vec<string> v;
+  while (is.find(" ") != string::npos) {
+    int found = is.find(" ");
+    v.push_back(is.substr(0, found));
+    is = is.substr(found + 1);
+  }
+  v.push_back(is);
+  return v;
+}
+
+vec<int> split(string is) {
+  vec<int> v;
+  while (is.find(" ") != string::npos) {
+    int found = is.find(" ");
+    v.push_back(stoi(is.substr(0, found)));
+    is = is.substr(found + 1);
+  }
+  v.push_back(stoi(is));
+  return v;
+}
+
 int main() {
   fast_io;
 
