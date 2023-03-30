@@ -12,7 +12,6 @@ using namespace std;
 #define pb push_back
 #define vec std::vector
 using ll = long long;
-#define INF 0x3f3f3f3f
 
 vec<string> split_str(string is) {
   vec<string> v;
@@ -36,8 +35,49 @@ vec<int> split(string is) {
   return v;
 }
 
+int comp(string s, bool flag) {
+  int l = 0, r = s.size() - 1;
+  int cnt = 0;
+  while (r >= l) {
+    while (s[l] == 'A') {
+      l++;
+    }
+    while (s[r] == 'B') {
+      r--;
+    }
+    if (r < l) {
+      break;
+    }
+    if (flag) {
+      s[l] = 'A';
+    } else {
+      s[r] = 'B';
+    }
+    cnt++;
+  }
+  return cnt;
+}
+
 int main() {
   fast_io;
 
+  string s;
+  cin >> s;
+
+  if (s.size() <= 1) {
+    cout << s;
+    return 0;
+  }
+
+  // int ca = 0, cb = 0;
+  // for (int i = 0; i < s.size(); i++) {
+  //   if (s[i] == 'A') {
+  //     ca++;
+  //   } else {
+  //     cb++;
+  //   }
+  // }
+
+  cout << min(comp(s, true), comp(s, false));
   return 0;
 }

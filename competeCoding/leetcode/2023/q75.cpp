@@ -39,5 +39,44 @@ vec<int> split(string is) {
 int main() {
   fast_io;
 
+  string inpustr;
+  getline(cin, inpustr);
+  vec<int> height = split(inpustr);
+  int l = 0, r = height.size() - 1;
+
+  vec<int> res(3, 0);
+  int cap = 0;
+
+  while (l < r) {
+    int sum = 0;
+    int low = min(height[l], height[r]);
+
+    for (int i = l; i <= r; i++) {
+      sum += max(0, low - height[i]);
+    }
+
+    if (sum >= cap) {
+      res = vec<int>{l, r, sum};
+      cap = sum;
+    }
+
+    if (height[r - 1] >= height[l] && height[r - 1] >= height[r]) {
+      r--;
+    } else if (height[l] < height[r]) {
+      l++;
+    } else if (height[l + 1] >= height[l] && height[l + 1] >= height[r]) {
+      l++;
+    } else if (height[l] > height[r]) {
+      r--;
+    } else {
+      r--;
+    }
+  }
+
+  if (res[2] == 0) {
+    cout << 0;
+  } else {
+    cout << res[0] << " " << res[1] << ":" << res[2];
+  }
   return 0;
 }

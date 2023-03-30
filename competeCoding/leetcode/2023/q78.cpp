@@ -39,5 +39,37 @@ vec<int> split(string is) {
 int main() {
   fast_io;
 
+  string ts;
+  getline(cin, ts);
+  vec<int> par = split(ts);
+  int a = par[0];
+  int k = par[1];
+
+  getline(cin, ts);
+  vec<int> nums = split(ts);
+  int res = 0;
+  int l = 0;
+  int r = 0;
+  map<int, int> numcnt;
+
+  while (l < a && r < a) {
+    int c = nums[r];
+    if (numcnt.count(c)) {
+      numcnt[c]++;
+    } else {
+      numcnt[c] = 1;
+    }
+
+    if (numcnt[c] >= k) {
+      res += a - r;
+      numcnt[nums[l]]--;
+      numcnt[c]--;
+      l++;
+      r--;
+    }
+    r++;
+  }
+  cout << res;
+
   return 0;
 }

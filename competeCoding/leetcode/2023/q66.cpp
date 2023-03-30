@@ -36,8 +36,53 @@ vec<int> split(string is) {
   return v;
 }
 
+void calc(vec<vec<int>> &nodes, int ind, int n, vec<int> &list) {
+  vec<int> node = nodes[ind];
+  if (n == 0) {
+    list.push_back(node[0]);
+    return;
+  }
+
+  if (node.size() <= 1) {
+    return;
+  }
+
+  for (int i = 1; i < node.size(); i++) {
+    calc(nodes, node[i], n - 1, list);
+  }
+}
+
+string get_res(vec<vec<int>> &nodes, vec<int> &sql) {
+  int x = sql[0], y = sql[1];
+  if (x < 0 || y < 0) {
+    return "{}";
+  }
+  vec<int> list;
+  calc(nodes, 0, x, list);
+  if (y > list.size()) {
+    return "{}";
+  }
+  return "{" + to_string(list[y]) + "}";
+}
+
 int main() {
   fast_io;
+
+  int n;
+  string inps;
+  getline(cin, inps);
+  n = stoi(inps);
+
+  vec<vec<int>> nodes;
+  for (int i = 0; i < n; i++) {
+    getline(cin, inps);
+    nodes.push_back(split(inps));
+  }
+
+  getline(cin, inps);
+  vec<int> sql = split(inps);
+
+  cout << get_res(nodes, sql);
 
   return 0;
 }

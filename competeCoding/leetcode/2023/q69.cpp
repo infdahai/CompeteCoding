@@ -39,5 +39,49 @@ vec<int> split(string is) {
 int main() {
   fast_io;
 
+  int m, n;
+  cin >> m >> n;
+  vec<int> ma;
+  for (int i = 0; i < m * n; i++) {
+    int a;
+    cin >> a;
+    ma.pb(a);
+  }
+
+  int ti, tj;
+  cin >> ti >> tj;
+
+  queue<pair<int, int>> q;
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      if (ma[i * n + j] > 0) {
+        q.push(mp(i, j));
+        break;
+      }
+    }
+  }
+
+  vec<vec<int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+  while (!q.empty()) {
+    auto [i, j] = q.front();
+    if (ma[i * n + j] == 1) {
+      break;
+    }
+
+    for (auto dir : dirs) {
+      int nx = dir[0] + i, ny = dir[1] + j;
+      if (nx >= 0 && nx < m && ny >= 0 && ny < m) {
+        if (ma[nx * n + ny] == 0) {
+          ma[nx * n + ny] = ma[i * n + j] - 1;
+          q.push(mp(nx, ny));
+        }
+      }
+    }
+    q.pop();
+  }
+
+  cout << ma[ti * n + tj];
+
   return 0;
 }

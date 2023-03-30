@@ -36,8 +36,44 @@ vec<int> split(string is) {
   return v;
 }
 
+void get_nums(vec<int> &nums) {
+  vec<int> res;
+  unordered_map<int, int> cnt, st_cnt;
+  for (auto v : nums) {
+    cnt[v]++;
+  }
+
+  res.emplace_back(-1);
+  for (auto x : nums) {
+    if (st_cnt[x] == 2) {
+      continue;
+    }
+
+    while (x > res.back() && cnt[res.back()] > 2) {
+      cnt[res.back()]--;
+      st_cnt[res.back()]--;
+      res.pop_back();
+    }
+    res.emplace_back(x);
+    st_cnt[x]++;
+  }
+
+  for (int i = 1; i < res.size(); i++) {
+    cout << res[i];
+  }
+}
+
 int main() {
   fast_io;
+
+  string inputs;
+  cin >> inputs;
+  vec<int> nums;
+  for (auto c : inputs) {
+    nums.pb(c - '0');
+  }
+
+  get_nums(nums);
 
   return 0;
 }

@@ -36,8 +36,46 @@ vec<int> split(string is) {
   return v;
 }
 
+int solve(int n, vec<vec<int>> &mat) {
+  int M = 1 << n;
+  vec<vec<int>> res(1 << n, vec<int>(n, INF));
+  res[1][0] = 0;
+
+  for (int i = 1; i < M; i++) {
+    for (int j = 0; j < n; j++) {
+      if (((i >> j) & 1) == 0) {
+        continue;
+      }
+      for (int k = 0; k < n; k++) {
+        if ((i >> k) & 1) {
+          debug(res[i ^ (1 << j)][k]);
+          debug(res[i][j]);
+          res[i][j] = min(res[i][j], mat[k][j] + res[i ^ (1 << j)][k]);
+        }
+      }
+    }
+  }
+  int minval = 0x7f7f7f7f;
+  for (int i = 0; i < n; i++) {
+    minval = min(minval, res[M - 1][i] + mat[i][0]);
+  }
+  return minval;
+}
+
 int main() {
   fast_io;
+
+  int n;
+  cin >> n;
+  vec<vec<int>> matrix(n, vec<int>(n, 0));
+  rep(i, 1, n, 1) {
+    rep(j, 1, n, 1) {
+      int a;
+      cin >> a;
+      matrix[i - 1][j - 1] = a;
+    }
+  }
+  cout << solve(n, matrix);
 
   return 0;
 }

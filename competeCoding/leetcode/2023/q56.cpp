@@ -12,7 +12,6 @@ using namespace std;
 #define pb push_back
 #define vec std::vector
 using ll = long long;
-#define INF 0x3f3f3f3f
 
 vec<string> split_str(string is) {
   vec<string> v;
@@ -36,8 +35,48 @@ vec<int> split(string is) {
   return v;
 }
 
+vec<int> comp(vec<int>& nums) {
+  if (nums.empty()) {
+    return nums;
+  }
+  int sz = nums.size();
+  vec<int> res(sz, -1);
+  stack<int> s;
+  s.push(0);
+  int ind = 1;
+  while (ind < sz) {
+    if (!s.empty() && nums[ind] > nums[s.top()]) {
+      res[s.top()] = (ind - s.top()) * (nums[ind] - nums[s.top()]);
+      s.pop();
+    } else {
+      s.push(ind);
+      ind++;
+    }
+  }
+
+  return res;
+}
+
 int main() {
   fast_io;
+
+  string s;
+  getline(cin, s);
+  int n = stoi(s);
+
+  string ts;
+  getline(cin, ts);
+  vector<int> nums = split(ts);
+
+  vec<int> res = comp(nums);
+
+  for (int i = 0; i < res.size(); i++) {
+    if (res[i] == -1) {
+      cout << nums[i] << " ";
+    } else {
+      cout << res[i] << " ";
+    }
+  }
 
   return 0;
 }

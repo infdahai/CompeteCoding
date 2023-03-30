@@ -12,7 +12,6 @@ using namespace std;
 #define pb push_back
 #define vec std::vector
 using ll = long long;
-#define INF 0x3f3f3f3f
 
 vec<string> split_str(string is) {
   vec<string> v;
@@ -27,8 +26,8 @@ vec<string> split_str(string is) {
 
 vec<int> split(string is) {
   vec<int> v;
-  while (is.find(" ") != string::npos) {
-    int found = is.find(" ");
+  while (is.find(",") != string::npos) {
+    int found = is.find(",");
     v.push_back(stoi(is.substr(0, found)));
     is = is.substr(found + 1);
   }
@@ -38,6 +37,31 @@ vec<int> split(string is) {
 
 int main() {
   fast_io;
+
+  string s;
+  getline(cin, s);
+  int n = stoi(s);
+
+  string ts;
+  getline(cin, ts);
+  vec<int> nums = split(ts);
+
+  deque<int> dq;
+  for (int i = 0; i < nums.size(); i++) {
+    // debug(nums[i]);
+    if (i >= n) {
+      cout << dq.front() << " ";
+      if (nums[i - n] == dq.front()) {
+        dq.pop_front();
+      }
+    }
+
+    while (!dq.empty() && dq.back() > nums[i]) {
+      dq.pop_back();
+    }
+    dq.push_back(nums[i]);
+  }
+  cout << dq.front() << endl;
 
   return 0;
 }

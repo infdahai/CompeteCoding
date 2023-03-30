@@ -12,7 +12,6 @@ using namespace std;
 #define pb push_back
 #define vec std::vector
 using ll = long long;
-#define INF 0x3f3f3f3f
 
 vec<string> split_str(string is) {
   vec<string> v;

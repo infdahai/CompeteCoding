@@ -12,7 +12,6 @@ using namespace std;
 #define pb push_back
 #define vec std::vector
 using ll = long long;
-#define INF 0x3f3f3f3f
 
 vec<string> split_str(string is) {
   vec<string> v;
@@ -36,8 +35,47 @@ vec<int> split(string is) {
   return v;
 }
 
+void check(set<int>& temp, int ind, vec<vec<int>>& matrix) {
+  for (int i = 0; i < matrix.size(); i++) {
+    if (temp.count(i)) {
+      continue;
+    }
+    if (i != ind && matrix[ind][i] == 1) {
+      temp.insert(i);
+      check(temp, i, matrix);
+    }
+  }
+}
+
 int main() {
   fast_io;
 
+  int n;
+  cin >> n;
+  vec<vec<int>> matrix;
+  rep(i, 1, n, 1) {
+    vec<int> c;
+    rep(j, 1, n, 1) {
+      int b;
+      cin >> b;
+      c.pb(b);
+    }
+    matrix.pb(c);
+  }
+
+  int res = 0;
+  set<int> ma;
+  for (int i = 0; i < n; i++) {
+    if (ma.count(i)) {
+      continue;
+    }
+    set<int> temp;
+    temp.insert(i);
+    check(temp, i, matrix);
+    ma.insert(temp.begin(), temp.end());
+    res++;
+  }
+
+  cout << res;
   return 0;
 }
