@@ -7,7 +7,7 @@ using namespace std;
   cout.tie(0)
 #define rep(i, a, b, c) for (int i = (a); i <= (b); i += (c))
 #define per(i, a, b, c) for (int i = (a); i >= (b); i -= (c))
-// #define endl "\n"
+#define endl "\n"
 #define mp make_pair
 #define pb push_back
 #define vec std::vector
@@ -36,17 +36,34 @@ vec<int> split(string is) {
   return v;
 }
 
-#define TXT
+int min_num;
+int m;
+int dfs(vec<int> &nums, int ind, int sum, int cnt) {
+  if (sum > m) {
+    return cnt;
+  }
+  if (sum <= m && sum > m - min_num) {
+    return cnt + 1;
+  }
+  for (int i = ind; i < nums.size(); i++) {
+    cnt = dfs(nums, i, sum + nums[i], cnt);
+  }
+
+  return cnt;
+}
+
 int main() {
   fast_io;
-#ifdef TXT
-  freopen("in.txt", "r", stdin);
-  freopen("out.txt", "w", stdout);
-#endif  // TXT
+  string inputs;
+  getline(cin, inputs);
+  vec<int> nums = split(inputs);
+  getline(cin, inputs);
+  m = stoi(inputs);
 
-#ifdef TXT
-  fclose(stdin);
-  fclose(stdout);
-#endif  // TXT
+  sort(nums.begin(), nums.end());
+  min_num = nums[0];
+
+  cout << dfs(nums, 0, 0, 0);
+
   return 0;
 }
