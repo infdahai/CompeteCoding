@@ -36,32 +36,6 @@ vec<int> split(string is) {
   return v;
 }
 
-class UF {
- public:
-  vec<int> item;
-  int cnt;
-  UF(int n) : cnt(n) {
-    item = vec<int>(n + 1, 0);
-    for (int i = 0; i < n; i++) item[i] = i;
-  }
-
-  int find(int x) {
-    if (x != item[x]) {
-      return (item[x] = find(item[x]));
-    }
-    return x;
-  }
-
-  void union_connect(int x, int y) {
-    int xitem = find(x);
-    int yitem = find(y);
-    if (xitem != yitem) {
-      item[yitem] = xitem;
-      cnt--;
-    }
-  }
-};
-
 // #define TXT
 int main() {
   fast_io;

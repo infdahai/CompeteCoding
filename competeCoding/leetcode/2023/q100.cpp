@@ -62,6 +62,22 @@ class UF {
   }
 };
 
+int n;
+int dfs(vec<vec<int>> &ma, int k, vec<int> &dp) {
+  int time = 0;
+  for (int i = 0; i < n; i++) {
+    if (i != k && ma[k][i] != 0) {
+      if (dp[i + 1] > 0) {
+        time = max(time, dp[i + 1]);
+      } else {
+        time = max(time, dfs(ma, i, dp));
+      }
+    }
+    dp[k + 1] = time + ma[k][k];
+  }
+  return ma[k][k] + time;
+}
+
 // #define TXT
 int main() {
   fast_io;
@@ -69,6 +85,23 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+
+  cin >> n;
+  vec<vec<int>> ma;
+  for (int i = 0; i < n; i++) {
+    vec<int> t;
+    for (int j = 0; j < n; j++) {
+      int a;
+      cin >> a;
+      t.pb(a);
+    }
+    ma.pb(t);
+  }
+
+  int k;
+  cin >> k;
+  vec<int> dp(n + 1, 0);
+  cout << dfs(ma, k - 1, dp);
 
 #ifdef TXT
   fclose(stdin);

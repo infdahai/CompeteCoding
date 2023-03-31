@@ -62,6 +62,21 @@ class UF {
   }
 };
 
+bool comp(vec<int> &x, vec<int> &y) {
+  if (x[0] > y[0]) {
+    return true;
+  }
+  if (x[0] == y[0]) {
+    if (x[2] < y[2]) {
+      return true;
+    }
+    if (x[2] == y[2]) {
+      return x[1] < y[1];
+    }
+  }
+  return false;
+}
+
 // #define TXT
 int main() {
   fast_io;
@@ -69,6 +84,43 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+  int n;
+  cin >> n;
+  vec<int> days;
+  rep(i, 1, 30, 1) {
+    int a;
+    cin >> a;
+    days.pb(a);
+  }
+
+  map<int, vec<int>> ma;
+  for (int i = 0; i < 30; i++) {
+    for (int j = 0; j < days[i]; j++) {
+      int t;
+      cin >> t;
+      if (ma.count(t)) {
+        auto &v = ma[t];
+        v[0]++;
+      } else {
+        ma[t] = vec<int>{1, i};
+      }
+    }
+  }
+
+  vec<vec<int>> em;
+  for (auto &it : ma) {
+    vec<int> t;
+    t.pb(it.first);
+    t.pb(it.second[0]);
+    t.pb(it.second[1]);
+    em.pb(t);
+  }
+  sort(em.begin(), em.end(), comp);
+
+  int sz = em.size() > 5 ? 5 : em.size();
+  for (int i = 0; i < sz; i++) {
+    cout << em[i][0] << " ";
+  }
 
 #ifdef TXT
   fclose(stdin);

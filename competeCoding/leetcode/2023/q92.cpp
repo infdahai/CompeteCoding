@@ -70,6 +70,32 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
+  int k;
+  cin >> k;
+  vec<vec<int>> data(101, vec<int>(101, 0));
+  rep(i, 1, k, 1) {
+    int a, b;
+    cin >> a >> b;
+    data[a][b] += 1;
+  }
+  int c;
+  cin >> c;
+
+  int l = 0, m1 = 0, m2 = 0, n = 0;
+  rep(i, 1, 100, 1) {
+    m1 += data[c][i];
+    m2 += data[i][c];
+    if (data[c][i] > 0 && data[i][c] == 0) {
+      l++;
+    }
+    if (data[c][i] - data[i][c] > 5) {
+      n++;
+    }
+  }
+  int m = m1 - m2;
+  bool flag = (l > 5) || (m > 10) || (n > 5);
+  cout << (flag ? "true" : "false") << " " << l << " " << m;
+
 #ifdef TXT
   fclose(stdin);
   fclose(stdout);
