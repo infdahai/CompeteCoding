@@ -62,8 +62,6 @@ class UF {
   }
 };
 
-// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
-
 // #define TXT
 int main() {
   fast_io;
@@ -71,6 +69,31 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+
+  int n, d;
+  cin >> n >> d;
+  vec<int> v;
+  rep(i, 1, n, 1) {
+    int a;
+    cin >> a;
+    v.pb(a);
+  }
+
+  sort(v.begin(), v.end());
+  if (n % 2) {
+    cout << -1;
+    return 0;
+  }
+  int s = 0;
+  rep(i, 0, n - 1, 2) {
+    int k = v[i + 1] - v[i];
+    if (k > d) {
+      cout << -1;
+      return 0;
+    }
+    s += k;
+  }
+  cout << s;
 
 #ifdef TXT
   fclose(stdin);

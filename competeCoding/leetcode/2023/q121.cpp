@@ -72,6 +72,12 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
+  int n;
+  cin >> n;
+  vec<int> w;
+  for (int i = 0; i < n; i++) {
+  }
+
 #ifdef TXT
   fclose(stdin);
   fclose(stdout);

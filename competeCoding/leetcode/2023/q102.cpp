@@ -62,8 +62,6 @@ class UF {
   }
 };
 
-// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
-
 // #define TXT
 int main() {
   fast_io;
@@ -71,6 +69,62 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+
+  int m, n;
+  cin >> m >> n;
+
+  vec<vec<int>> ma;
+  rep(i, 1, m, 1) {
+    vec<int> temp;
+    rep(j, 1, n, 1) {
+      int a;
+      cin >> a;
+      temp.pb(a);
+    }
+    ma.pb(temp);
+  }
+
+  priority_queue<int, vec<int>, ::greater<int>> pq;
+  vec<vec<int>> res(m, vec<int>(n, 0));
+
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      if (pq.empty()) {
+        pq.emplace(ma[i][j]);
+        continue;
+      }
+      res[i][j] += pq.size();
+      while (!pq.empty() && pq.top() <= ma[i][j]) {
+        assert(j >= 1);
+        pq.pop();
+      }
+      pq.emplace(ma[i][j]);
+    }
+    pq = {};
+  }
+
+  for (int j = 0; j < n; j++) {
+    for (int i = 0; i < m; i++) {
+      if (pq.empty()) {
+        pq.emplace(ma[i][j]);
+        continue;
+      }
+      res[i][j] += pq.size();
+      while (!pq.empty() && pq.top() <= ma[i][j]) {
+        assert(i >= 1);
+        pq.pop();
+      }
+      pq.emplace(ma[i][j]);
+    }
+    pq = {};
+  }
+
+  cout << m << " " << n << endl;
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      cout << res[i][j] << " ";
+    }
+  }
 
 #ifdef TXT
   fclose(stdin);

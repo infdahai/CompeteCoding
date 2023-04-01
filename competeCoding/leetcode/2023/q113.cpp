@@ -62,7 +62,39 @@ class UF {
   }
 };
 
-// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+int dfs(vec<int> &lines, int ind) {
+  int v = 0;
+  int sz = lines.size();
+  int a, b, c;
+  for (int i = ind; i < sz - 2; i++) {
+    a = lines[i];
+    if (lines[a] == 0) {
+      continue;
+    }
+    for (int j = i + 1; j < sz - 1; j++) {
+      b = lines[j];
+      if (lines[b] == 0) {
+        continue;
+      }
+      for (int k = j + 1; k < sz; k++) {
+        c = lines[k];
+        if (lines[c] == 0) {
+          continue;
+        }
+        if ((a * a + b * b) == c * c) {
+          lines[a] = 0;
+          lines[b] = 0;
+          lines[c] = 0;
+          v = max(v, dfs(lines, i + 1) + 1);
+          lines[a] = a;
+          lines[b] = b;
+          lines[c] = c;
+        }
+      }
+    }
+  }
+  return v;
+}
 
 // #define TXT
 int main() {
@@ -71,6 +103,22 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+
+  int t;
+  cin >> t;
+  vec<int> nums;
+  for (int i = 0; i < t; i++) {
+    int n;
+    cin >> n;
+    for (int j = 0; j < n; j++) {
+      int a;
+      cin >> a;
+      nums.pb(a);
+    }
+  }
+
+  sort(nums.begin(), nums.end());
+  cout << dfs(nums, 0);
 
 #ifdef TXT
   fclose(stdin);

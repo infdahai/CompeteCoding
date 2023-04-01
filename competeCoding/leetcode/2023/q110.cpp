@@ -62,7 +62,7 @@ class UF {
   }
 };
 
-// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+bool comp(pair<int, int> &a, pair<int, int> &b) { return a.first < b.first; }
 
 // #define TXT
 int main() {
@@ -72,6 +72,24 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
+  int n;
+  cin >> n;
+  vec<pair<int, int>> ma;
+  rep(i, 1, n, 1) {
+    int a, b;
+    cin >> a >> b;
+    ma.pb(mp(a, b));
+  }
+
+  sort(ma.begin(), ma.end(), comp);
+  int s = 0;
+
+  int k = n / 2;
+  for (int i = 0; i < k; i++) {
+    s += ma[(n - 1) - i].first - ma[i].second;
+  }
+
+  cout << s;
 #ifdef TXT
   fclose(stdin);
   fclose(stdout);

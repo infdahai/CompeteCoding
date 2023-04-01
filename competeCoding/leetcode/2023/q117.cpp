@@ -71,6 +71,31 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+  vec<int> A;
+  vec<int> B;
+  vec<int> C;
+
+  int n, m, t;
+  cin >> n >> m >> t;
+  for (int i = 0; i < n; i++) {
+    int a, b, c;
+    cin >> a >> b >> c;
+    A.pb(a);
+    B.pb(b);
+    C.pb(c);
+  }
+
+  vec<int> dp(m + 1, 0);
+  for (int i = 0; i < n; i++) {
+    for (int j = m; j >= B[i]; j--) {
+      int cnt = min(j / B[i], t / C[i]);
+      for (int k = 1; k <= cnt; k++) {
+        dp[j] = max(dp[j], dp[j - k * B[i]] + A[i] * k);
+      }
+    }
+  }
+
+  cout << *max_element(dp.begin(), dp.end()) << endl;
 
 #ifdef TXT
   fclose(stdin);
