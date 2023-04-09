@@ -62,19 +62,13 @@ class UF {
   }
 };
 
+struct lnode {
+  int v;
+  int next;
+  lnode(int v, int next) : v(v), next(next) {}
+};
+
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
-
-map<string, int> ma;
-
-bool comp(string &a, string b) {
-  if (ma[a] != ma[b]) {
-    return ma[a] > ma[b];
-  }
-  if (a.length() != b.length()) {
-    return a.length() < b.length();
-  }
-  return a < b;
-}
 
 // #define TXT
 int main() {
@@ -84,22 +78,45 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
-  string inputs;
-  getline(cin, inputs);
-  vec<string> ss = split_str(inputs);
-  for (auto &s : ss) {
-    sort(s.begin(), s.end());
+  int m, n;
+  vec<int> a, b;
+  cin >> m;
+  rep(i, 1, m, 1) {
+    int c;
+    cin >> c;
+    a.pb(c);
+  }
+  cin >> n;
+  rep(i, 1, n, 1) {
+    int c;
+    cin >> c;
+    b.pb(c);
   }
 
-  for (auto s : ss) {
-    if (ma.count(s)) {
-      ma[s] += 1;
+  unordered_map<int, int> aa, bb;
+  for (auto &x : a) {
+    if (aa.count(x)) {
+      aa[x] += 1;
     } else {
-      ma[s] = 1;
+      aa[x] = 1;
+    }
+  }
+  for (auto &x : b) {
+    if (bb.count(x)) {
+      bb[x] += 1;
+    } else {
+      bb[x] = 1;
     }
   }
 
-  sort(ss.begin(), ss.end(), comp);
+  int res = 0;
+  for (auto &s : aa) {
+    auto &x = s.first;
+    if (bb.count(x)) {
+      res += s.second * bb[x];
+    }
+  }
+  cout << res;
 
 #ifdef TXT
   fclose(stdin);

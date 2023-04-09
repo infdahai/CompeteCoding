@@ -6,7 +6,7 @@ using namespace std;
   cin.tie(0);              \
   cout.tie(0)
 #define rep(i, a, b, c) for (int i = (a); i <= (b); i += (c))
-#define per(i, a, b, c) for (int i = (a); i >= (b); i -= (c))
+// #define per(i, a, b, c) for (int i = (a); i >= (b); i -= (c))
 // #define endl "\n"
 #define mp make_pair
 #define pb push_back
@@ -36,6 +36,62 @@ vec<int> split(string is) {
   return v;
 }
 
+// class UF {
+//  public:
+//   vec<int> item;
+//   int cnt;
+//   UF(int n) : cnt(n) {
+//     item = vec<int>(n + 1, 0);
+//     for (int i = 0; i < n; i++) item[i] = i;
+//   }
+
+//   int find(int x) {
+//     if (x != item[x]) {
+//       return (item[x] = find(item[x]));
+//     }
+//     return x;
+//   }
+
+//   void union_connect(int x, int y) {
+//     int xitem = find(x);
+//     int yitem = find(y);
+//     if (xitem != yitem) {
+//       item[yitem] = xitem;
+//       cnt--;
+//     }
+//   }
+// };
+
+struct lnode {
+  int v;
+  int next;
+  lnode(int v, int next) : v(v), next(next) {}
+};
+
+// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+// struct per {
+//   int id;
+//   int cnt;
+//   int day;
+//   per(int id, int cnt, int day) : id(id), cnt(cnt), day(day) {}
+// };
+
+bool comp(const vec<int> &a, const vec<int> &b) {
+  if (a[1] > b[1]) {
+    return true;
+  }
+  if (a[1] == b[1]) {
+    if (a[2] < b[2]) {
+      return true;
+    }
+    if (a[2] == b[2]) {
+      return a[0] < b[0];
+    }
+  }
+  return false;
+}
+
 // #define TXT
 int main() {
   fast_io;
@@ -45,21 +101,47 @@ int main() {
 #endif  // TXT
 
   int n;
-  while (cin >> n) {
-    if (n == 0) {
-      return 0;
-    }
-    int res = 0;
-    while (n > 2) {
-      int k = n / 3 + n % 3;
-      res += n / 3;
-      n = k;
-    }
-    if (n == 2) {
-      res += 1;
-    }
+  string inputs;
+  getline(cin, inputs);
+  n = stoi(inputs);
+  getline(cin, inputs);
+  vec<int> nums = split(inputs);
 
-    cout << res << endl;
+  vec<vec<int>> days;
+  rep(i, 1, 30, 1) {
+    vec<int> temp;
+    getline(cin, inputs);
+    temp = split(inputs);
+    days.pb(temp);
+  }
+  // assert(days.size() == 30);
+
+  map<int, vec<int>> ma;
+  for (auto i = 0; i < days.size(); i++) {
+    for (auto &v : days[i]) {
+      if (ma.count(v)) {
+        ma[v][1]++;
+      } else {
+        vec<int> b = {v, 1, i};
+        ma[v] = b;
+      }
+    }
+  }
+  vec<vec<int>> res;
+  for (auto &k : ma) {
+    res.pb(k.second);
+  }
+  // debug(res.size());
+  sort(res.begin(), res.end(), comp);
+
+  if (res.size() < 5) {
+    for (int i = 0; i < res.size(); i++) {
+      cout << res[i][0] << " ";
+    }
+  } else {
+    for (int i = 0; i < 5; i++) {
+      cout << res[i][0] << " ";
+    }
   }
 
 #ifdef TXT

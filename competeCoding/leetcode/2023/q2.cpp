@@ -64,18 +64,6 @@ class UF {
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
-map<string, int> ma;
-
-bool comp(string &a, string b) {
-  if (ma[a] != ma[b]) {
-    return ma[a] > ma[b];
-  }
-  if (a.length() != b.length()) {
-    return a.length() < b.length();
-  }
-  return a < b;
-}
-
 // #define TXT
 int main() {
   fast_io;
@@ -85,21 +73,47 @@ int main() {
 #endif  // TXT
 
   string inputs;
-  getline(cin, inputs);
-  vec<string> ss = split_str(inputs);
-  for (auto &s : ss) {
-    sort(s.begin(), s.end());
-  }
-
-  for (auto s : ss) {
-    if (ma.count(s)) {
-      ma[s] += 1;
+  cin >> inputs;
+  map<char, int> char_cnt;
+  for (auto x : inputs) {
+    if (char_cnt.count(x)) {
+      char_cnt[x] += 1;
     } else {
-      ma[s] = 1;
+      char_cnt[x] = 1;
     }
   }
 
-  sort(ss.begin(), ss.end(), comp);
+  if (char_cnt['W'] == char_cnt['A'] && char_cnt['W'] == char_cnt['S'] && char_cnt['W'] == char_cnt['D']) {
+    cout << 0;
+    return 0;
+  }
+
+  int l = 0, r = 0, len = 0;
+  int res = inputs.size();
+  int max_num = 0;
+  int free_num = 0;
+
+  char_cnt[inputs[0]]--;
+  while (1) {
+    max_num = max(max(max(char_cnt['W'], char_cnt['A']), char_cnt['S']), char_cnt['D']);
+    len = r - l + 1;
+    free_num = len - ((max_num - char_cnt['W']) + (max_num - char_cnt['A']) + (max_num - char_cnt['S']) +
+                      (max_num - char_cnt['D']));
+    if (free_num >= 0 && free_num % 4 == 0) {
+      if (len < res) {
+        res = len;
+      }
+      char_cnt[inputs[l]]++;
+      l++;
+    } else {
+      r++;
+      char_cnt[inputs[r]]--;
+    }
+    if (r >= inputs.size()) {
+      break;
+    }
+  }
+  cout << res;
 
 #ifdef TXT
   fclose(stdin);

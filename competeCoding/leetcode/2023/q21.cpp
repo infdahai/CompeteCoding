@@ -27,8 +27,8 @@ vec<string> split_str(string is) {
 
 vec<int> split(string is) {
   vec<int> v;
-  while (is.find(" ") != string::npos) {
-    int found = is.find(" ");
+  while (is.find(",") != string::npos) {
+    int found = is.find(",");
     v.push_back(stoi(is.substr(0, found)));
     is = is.substr(found + 1);
   }
@@ -62,19 +62,13 @@ class UF {
   }
 };
 
+struct lnode {
+  int v;
+  int next;
+  lnode(int v, int next) : v(v), next(next) {}
+};
+
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
-
-map<string, int> ma;
-
-bool comp(string &a, string b) {
-  if (ma[a] != ma[b]) {
-    return ma[a] > ma[b];
-  }
-  if (a.length() != b.length()) {
-    return a.length() < b.length();
-  }
-  return a < b;
-}
 
 // #define TXT
 int main() {
@@ -85,21 +79,24 @@ int main() {
 #endif  // TXT
 
   string inputs;
-  getline(cin, inputs);
-  vec<string> ss = split_str(inputs);
-  for (auto &s : ss) {
-    sort(s.begin(), s.end());
-  }
+  cin >> inputs;
+  inputs = inputs.substr(0, inputs.length() - 2);
+  vec<int> nums = split(inputs);
 
-  for (auto s : ss) {
-    if (ma.count(s)) {
-      ma[s] += 1;
+  vec<int> p1;
+  vec<int> p2;
+  for (auto x : nums) {
+    if (x >= 4) {
+      p2.pb(x);
     } else {
-      ma[s] = 1;
+      p1.pb(x);
     }
   }
 
-  sort(ss.begin(), ss.end(), comp);
+  int app;
+  cin >> app;
+
+  vec<vec<int>> ans;
 
 #ifdef TXT
   fclose(stdin);

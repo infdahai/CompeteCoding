@@ -36,17 +36,45 @@ vec<int> split(string is) {
   return v;
 }
 
-int64_t calc(string &s) {
-  int64_t ans = 0;
-  for (auto c : s) {
-    if (c >= 'A' && c <= 'F') {
-      ans = ans * 16 + 10 + c - 'A';
-    } else {
-      ans = ans * 16 + c - '0';
+class UF {
+ public:
+  vec<int> item;
+  int cnt;
+  UF(int n) : cnt(n) {
+    item = vec<int>(n + 1, 0);
+    for (int i = 0; i < n; i++) item[i] = i;
+  }
+
+  int find(int x) {
+    if (x != item[x]) {
+      return (item[x] = find(item[x]));
+    }
+    return x;
+  }
+
+  void union_connect(int x, int y) {
+    int xitem = find(x);
+    int yitem = find(y);
+    if (xitem != yitem) {
+      item[yitem] = xitem;
+      cnt--;
     }
   }
-  return ans;
-}
+};
+
+struct lnode {
+  int v;
+  int next;
+  lnode(int v, int next) : v(v), next(next) {}
+};
+
+// inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+bool comp1(vec<int> &a, vec<int> &b) { return a[0] < b[0]; }
+
+struct comp2 {
+  bool operator()(vec<int> &a, vec<int> &b) { return a[0] > b[0]; }
+};
 
 // #define TXT
 int main() {
@@ -56,11 +84,34 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
-  string s;
-  cin >> s;
-  s = s.substr(2);
+  int n;
+  cin >> n;
+  int t = 0;
+  vec<vec<int>> res;
+  for (int i = 0; i < n; i++) {
+    int a, b, c;
+    cin >> a >> b >> c;
+    vec<int> temp = {a, b, c};
+    res.pb(temp);
+  }
 
-  cout << calc(s);
+  sort(res.begin(), res.end(), comp1);
+  priority_queue<vec<int>, vec<vec<int>>, comp2> pq;
+  int ma = 0;
+  for (int i = 0; i < res.size(); i++) {
+    while (!pq.empty() && pq.top()[0] <= res[i][0]) {
+      auto &top = pq.top();
+      ma -= top[1];
+      pq.pop();
+    }
+
+    ma += res[i][2];
+    t = max(t, ma);
+    vec<int> temp = {res[i][1], res[i][2]};
+    pq.emplace(temp);
+  }
+
+  cout << t;
 
 #ifdef TXT
   fclose(stdin);

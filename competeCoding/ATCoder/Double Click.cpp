@@ -62,19 +62,13 @@ class UF {
   }
 };
 
+struct lnode {
+  int v;
+  int next;
+  lnode(int v, int next) : v(v), next(next) {}
+};
+
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
-
-map<string, int> ma;
-
-bool comp(string &a, string b) {
-  if (ma[a] != ma[b]) {
-    return ma[a] > ma[b];
-  }
-  if (a.length() != b.length()) {
-    return a.length() < b.length();
-  }
-  return a < b;
-}
 
 // #define TXT
 int main() {
@@ -84,22 +78,19 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif  // TXT
 
-  string inputs;
-  getline(cin, inputs);
-  vec<string> ss = split_str(inputs);
-  for (auto &s : ss) {
-    sort(s.begin(), s.end());
-  }
-
-  for (auto s : ss) {
-    if (ma.count(s)) {
-      ma[s] += 1;
-    } else {
-      ma[s] = 1;
+  int n, d;
+  cin >> n >> d;
+  vec<int> nums;
+  rep(i, 1, n, 1) {
+    int a;
+    cin >> a;
+    if (i >= 2 && a - nums.back() <= d) {
+      cout << a << endl;
+      return 0;
     }
+    nums.pb(a);
   }
-
-  sort(ss.begin(), ss.end(), comp);
+  cout << "-1" << endl;
 
 #ifdef TXT
   fclose(stdin);
