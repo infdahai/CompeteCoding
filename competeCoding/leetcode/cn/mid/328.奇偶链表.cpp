@@ -16,10 +16,7 @@
  * };
  */
 class Solution {
-public:
-    ListNode* oddEvenList(ListNode* head) {
-
-    }
+ public:
+  ListNode *oddEvenList(ListNode *head) {}
 };
 // @lc code=end
-
