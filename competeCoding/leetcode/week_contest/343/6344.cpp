@@ -68,6 +68,33 @@ struct lnode {
   lnode(int v, int next) : v(v), next(next) {}
 };
 
+class Solution {
+ public:
+  string smallestBeautifulString(string s, int k) {
+    int n = s.size();
+    auto g = [&]() {
+      for (int i = n - 1; i >= 0; i--) {
+        for (int j = s[i] + 1; j < 'a' + k; j++) {
+          if ((i >= 1 && s[i - 1] == j) || (i >= 2 && s[i - 2] == j)) continue;
+          s[i] = j;
+          return i + 1;
+        }
+      }
+      return -1;
+    };
+    int pos = g();
+    if (pos == -1) return "";
+    for (int i = pos; i < n; i++) {
+      for (int j = 'a'; j < 'a' + k; j++) {
+        if ((i >= 1 && s[i - 1] == j) || (i >= 2 && s[i - 2] == j)) continue;
+        s[i] = j;
+        break;
+      }
+    }
+    return s;
+  }
+};
+
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
 // #define TXT

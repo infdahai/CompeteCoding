@@ -10,7 +10,7 @@ using namespace std;
 // #define endl "\n"
 #define mp make_pair
 #define pb push_back
-#define vec vector
+#define vec std::vector
 using ll = long long;
 #define INF 0x3f3f3f3f
 
@@ -70,6 +70,46 @@ struct lnode {
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
+class Solution {
+ public:
+  int isWinner(vector<int> &player1, vector<int> &player2) {
+    int p1 = 0, p2 = 0;
+    int pos1 = -1, pos2 = -1;
+
+    for (int i = 0; i < player1.size(); i++) {
+      int k = player1[i];
+      if (pos1 >= 0 && i - pos1 <= 2) {
+        p1 += 2 * k;
+      } else {
+        p1 += k;
+      }
+      if (k == 10) {
+        pos1 = i;
+      }
+    }
+
+    for (int i = 0; i < player2.size(); i++) {
+      int k = player2[i];
+      if (pos2 >= 0 && i - pos2 <= 2) {
+        p2 += 2 * k;
+      } else {
+        p2 += k;
+      }
+      if (k == 10) {
+        pos2 = i;
+      }
+    }
+
+    int res = 0;
+    if (p1 > p2) {
+      res = 1;
+    } else if (p1 < p2) {
+      res = 2;
+    }
+    return res;
+  }
+};
+
 // #define TXT
 int main() {
   fast_io;
@@ -77,6 +117,8 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
+
+  auto solu = Solution();
 
 #ifdef TXT
   fclose(stdin);

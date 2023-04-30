@@ -15,13 +15,11 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [
-        "3\n1,4\n2,5\n3,6\n"
-      ],
+      "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/root/Workspace/proj/CompeteCoding",
-      "program": "/root/Workspace/proj/CompeteCoding/competeCoding/leetcode/2023/a.out",
+      "cwd": "/root/Workspace/proj/CompeteCoding/competeCoding/leetcode/week_contest",
+      "program": "/root/Workspace/proj/CompeteCoding/competeCoding/leetcode/week_contest/build/Release/outRelease",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

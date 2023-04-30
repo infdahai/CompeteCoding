@@ -10,7 +10,7 @@ using namespace std;
 // #define endl "\n"
 #define mp make_pair
 #define pb push_back
-#define vec vector
+#define vec std::vector
 using ll = long long;
 #define INF 0x3f3f3f3f
 
@@ -69,6 +69,30 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+ public:
+  int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+    int m = mat.size(), n = mat[0].size();
+    int r[n * m + 1], c[n * m + 1];
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        r[mat[i][j]] = i;
+        c[mat[i][j]] = j;
+      }
+    }
+    int cntr[m], cntc[n];
+    memset(cntr, 0, sizeof(cntr));
+    memset(cntc, 0, sizeof(cntc));
+    for (int i = 0; i < n * m; i++) {
+      int v = arr[i];
+      int a = r[v], b = c[v];
+      if (++cntr[a] == n) return i;
+      if (++cntc[b] == m) return i;
+    }
+    return 0;
+  }
+};
 
 // #define TXT
 int main() {

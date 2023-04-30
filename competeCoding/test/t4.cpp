@@ -10,7 +10,7 @@ using namespace std;
 // #define endl "\n"
 #define mp make_pair
 #define pb push_back
-#define vec vector
+#define vec std::vector
 using ll = long long;
 #define INF 0x3f3f3f3f
 
@@ -70,17 +70,33 @@ struct lnode {
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
+bool cmp(pair<int, int> &a, pair<int, int> &b) { return a.second > b.second; }
+
 // #define TXT
 int main() {
   fast_io;
-#ifdef TXT
-  freopen("in.txt", "r", stdin);
-  freopen("out.txt", "w", stdout);
-#endif  // TXT
 
-#ifdef TXT
-  fclose(stdin);
-  fclose(stdout);
-#endif  // TXT
+  int n;
+  cin >> n;
+  string s;
+  while (n--) {
+    cin >> s;
+    int res = 0;
+    map<int, int> m;
+    for (auto c : s) {
+      m[c - 'a'] += 1;
+    }
+    vec<pair<int, int>> p;
+    for (auto &[k, v] : m) {
+      p.push_back(mp(k, v));
+    }
+    sort(p.begin(), p.end(), cmp);
+    int l = p.size();
+    for (int i = 0; i < l; i++) {
+      res += p[i].second * (26 - i);
+    }
+    cout << res << endl;
+  }
+
   return 0;
 }
