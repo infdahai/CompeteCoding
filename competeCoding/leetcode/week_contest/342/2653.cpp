@@ -14,10 +14,6 @@ using namespace std;
 using ll = long long;
 #define INF 0x3f3f3f3f
 
-inline int gcd(int a,int b) {
-    return b>0 ? gcd(b,a%b):a;
-}
-
 vec<string> split_str(string is) {
   vec<string> v;
   while (is.find(" ") != string::npos) {
@@ -73,6 +69,31 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+ public:
+  vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
+    const int bias = 50;
+    int cnt[2 * bias + 1]{}, n = nums.size();
+    for (int i = 0; i < k - 1; i++) {
+      ++cnt[nums[i] + bias];
+    }
+    vector<int> ans(n - k + 1);
+    for (int i = k - 1; i < n; i++) {
+      ++cnt[nums[i] + bias];
+      int l = x;
+      for (int j = 0; j < bias; j++) {
+        l -= cnt[j];
+        if (l <= 0) {
+          ans[i - k + 1] = j - bias;
+          break;
+        }
+      }
+      --cnt[bias + nums[i - k + 1]];
+    }
+    return ans;
+  }
+};
 
 // #define TXT
 int main() {

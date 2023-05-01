@@ -14,10 +14,6 @@ using namespace std;
 using ll = long long;
 #define INF 0x3f3f3f3f
 
-inline int gcd(int a,int b) {
-    return b>0 ? gcd(b,a%b):a;
-}
-
 vec<string> split_str(string is) {
   vec<string> v;
   while (is.find(" ") != string::npos) {
@@ -73,6 +69,13 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+ public:
+  int findDelayedArrivalTime(int arrivalTime, int delayedTime) {
+    return (arrivalTime + delayedTime) % 24;
+  }
+};
 
 // #define TXT
 int main() {

@@ -14,10 +14,6 @@ using namespace std;
 using ll = long long;
 #define INF 0x3f3f3f3f
 
-inline int gcd(int a,int b) {
-    return b>0 ? gcd(b,a%b):a;
-}
-
 vec<string> split_str(string is) {
   vec<string> v;
   while (is.find(" ") != string::npos) {
@@ -73,6 +69,34 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+ public:
+  int sumOfMultiples(int n) {
+    int b[] = {3, 5, 7};
+    int a[3] = {3, 5, 7};
+    int sum{};
+    for (int i = 1; i <= n; i++) {
+      bool f = false;
+      if (i == a[0]) {
+        f = true;
+        a[0] += b[0];
+      }
+      if (i == a[1]) {
+        f = true;
+        a[1] += b[1];
+      }
+      if (i == a[2]) {
+        f = true;
+        a[2] += b[2];
+      }
+      if (f) {
+        sum += i;
+      }
+    }
+    return sum;
+  }
+};
 
 // #define TXT
 int main() {

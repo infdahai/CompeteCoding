@@ -14,9 +14,7 @@ using namespace std;
 using ll = long long;
 #define INF 0x3f3f3f3f
 
-inline int gcd(int a,int b) {
-    return b>0 ? gcd(b,a%b):a;
-}
+inline int gcd(int a, int b) { return b > 0 ? gcd(b, a % b) : a; }
 
 vec<string> split_str(string is) {
   vec<string> v;
@@ -73,6 +71,33 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+ public:
+  int minOperations(vector<int>& nums) {
+    int n = nums.size();
+    int gcd_all = 0, cnt1 = 0;
+    for (int x : nums) {
+      gcd_all = gcd(gcd_all, x);
+      cnt1 += x == 1;
+    }
+    if (gcd_all > 1) return -1;
+    if (cnt1) return n - cnt1;
+    int minsz = n;
+
+    for (int i = 0; i < n; i++) {
+      int g = 0;
+      for (int j = i; j < n; j++) {
+        g = gcd(g, nums[j]);
+        if (g == 1) {
+          minsz = min(minsz, j - i);
+          break;
+        }
+      }
+    }
+    return minsz + n - 1;
+  }
+};
 
 // #define TXT
 int main() {
