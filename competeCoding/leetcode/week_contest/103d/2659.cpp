@@ -10,7 +10,7 @@ using namespace std;
 // #define endl "\n"
 #define mp make_pair
 #define pb push_back
-#define vec vector
+// #define vec vector
 using ll = long long;
 #define INF 0x3f3f3f3f
 
@@ -74,42 +74,44 @@ struct lnode {
 
 class Solution {
  public:
-  int findMaxFish(vector<vector<int>>& grid) {
-    int n = grid.size(), m = grid[0].size();
-    bool vis[n][m];
-    memset(vis, 0, sizeof(vis));
-    short dir[4][2] = {0, 1, 1, 0, -1, 0, 0, -1};
+  long long countOperationsToEmptyArray(vector<int>& nums) {
+    // use tree arrays.
+    int n = nums.size();
 
-    auto bfs = [&](int si, int sj) {
-      using pii = pair<int, int>;
-      queue<pii> q;
-      q.push(pii(si, sj));
-      vis[si][sj] = true;
+    int tree[n + 1];
+    memset(tree, 0, sizeof(tree));
+    auto lb = [&](int x) { return x & (-x); };
+
+    auto add = [&](int pos) {
+      for (; pos <= n; pos += lb(pos)) tree[pos]++;
+    };
+
+    auto query = [&](int pos) {
       int ret = 0;
-      while (!q.empty()) {
-        pii p = q.front();
-        q.pop();
-        int i = p.first, j = p.second;
-        ret += grid[i][j];
-        for (int k = 0; k < 4; k++) {
-          int di = i + dir[k][0];
-          int dj = j + dir[k][1];
-          if (di < 0 || di >= n || dj < 0 || dj >= m || grid[di][dj] == 0 ||
-              vis[di][dj]) {
-            continue;
-          }
-          q.push(pii(di, dj));
-          vis[di][dj] = true;
-        }
-      }
+      for (; pos; pos -= lb(pos)) ret += tree[pos];
       return ret;
     };
 
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-      for (int j = 0; j < m; j++)
-        if (grid[i][j] && !vis[i][j]) ans = max(ans, bfs(i, j));
-    return ans;
+    using pii = pair<int, int>;
+    vector<pii> vec;
+    for (int i = 0; i < n; i++) vec.push_back(pii(nums[i], i + 1));
+    sort(vec.begin(), vec.end());
+
+    long long ret = 0;
+    int now = 0;
+    for (auto [start, end] : vec) {
+      if (end < now) {
+        ret += n - now;
+        ret -= query(n) - query(now);
+        now = 0;
+      }
+      ret += end - now;
+      ret -= query(end) - query(now);
+      now = end;
+      add(now);
+    }
+
+    return ret;
   }
 };
 
