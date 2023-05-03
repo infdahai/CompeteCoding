@@ -70,6 +70,41 @@ struct lnode {
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
+class Solution {
+ public:
+  int minimizeMax(vector<int>& nums, int p) {
+    if (p == 0) return 0;
+    int n = nums.size();
+    sort(nums.begin(), nums.end());
+
+    auto check = [&](int lim) {
+      int cnt = 0, total = 0;
+      for (int i = 0; i + 1 < n; i++) {
+        if (nums[i + 1] - nums[i] <= lim)
+          cnt++;
+        else {
+          total += (cnt + 1) / 2;
+          cnt = 0;
+        }
+      }
+      total += (cnt + 1) / 2;
+      return total >= p;
+    };
+
+    int head = 0;
+    int tail = nums[n - 1] - nums[0];
+    while (head < tail) {
+      int mid = head + (tail - head) / 2;
+      if (check(mid))
+        tail = mid;
+      else
+        head = mid + 1;
+    }
+
+    return head;
+  }
+};
+
 // #define TXT
 int main() {
   fast_io;

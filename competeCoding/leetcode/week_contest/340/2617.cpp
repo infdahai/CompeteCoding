@@ -70,6 +70,47 @@ struct lnode {
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
 
+class Solution {
+ public:
+  int minimumVisitedCells(vector<vector<int>>& grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+    int mn = 0;
+    vector<vector<pair<int, int>>> col_st(n);
+    for (int i = m - 1; i >= 0; i--) {
+      vector<pair<int, int>> st;
+      for (int j = n - 1; j >= 0; j--) {
+        auto& st2 = col_st[j];
+        mn = INT_MAX;
+        if (i == m - 1 && j == n - 1) {
+          mn = 0;
+        } else if (int g = grid[i][j]; g) {
+          auto it = lower_bound(
+              st.begin(), st.end(), j + g,
+              [](const auto& a, const int b) { return a.second > b; });
+          if (it < st.end()) mn = min(mn, it->first);
+          it = lower_bound(
+              st2.begin(), st2.end(), i + g,
+              [](const auto& a, const int b) { return a.second > b; });
+          if (it < st2.end()) mn = min(mn, it->first);
+        }
+        if (mn == INT_MAX) continue;
+
+        ++mn;
+        while (!st.empty() && mn <= st.back().first) st.pop_back();
+        st.emplace_back(mn, j);
+        while (!st2.empty() && mn <= st2.back().first) st2.pop_back();
+        st2.emplace_back(mn, i);
+      }
+    }
+    return mn < INT_MAX ? mn : -1;
+  }
+};
+
+class Solution1 {
+    
+};
+
 // #define TXT
 int main() {
   fast_io;

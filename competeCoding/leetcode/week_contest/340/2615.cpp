@@ -7,7 +7,6 @@ using namespace std;
   cout.tie(0)
 #define rep(i, a, b, c) for (int i = (a); i <= (b); i += (c))
 #define per(i, a, b, c) for (int i = (a); i >= (b); i -= (c))
-// #define endl "\n"
 #define vec vector
 using ll = long long;
 #define INF 0x3f3f3f3f
@@ -69,6 +68,55 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution1 {
+  using ll = long long;
+
+ public:
+  vector<ll> distance(vector<int>& nums) {
+    int n = nums.size();
+    unordered_map<int, vector<int>> mp;
+    for (int i = 0; i < n; i++) mp[nums[i]].push_back(i);
+
+    vector<long long> ans(n);
+    long long s[n + 1];
+    s[0] = 0;
+    for (auto& [_, v] : mp) {
+      int m = v.size();
+      for (int i = 0; i < m; i++) s[i + 1] = s[i] + v[i];
+      for (int i = 0; i < m; i++) {
+        long long target = v[i];
+        long long l = target * i - s[i];
+        long long r = s[m] - s[i] - target * (m - i);
+        ans[target] = l + r;
+      }
+    }
+    return ans;
+  }
+};
+
+class Solution {
+  using ll = long long;
+
+ public:
+  vector<ll> distance(vector<int>& nums) {
+    int n = nums.size();
+    unordered_map<int, vector<int>> mp;
+    for (int i = 0; i < n; i++) mp[nums[i]].push_back(i);
+
+    vector<long long> ans(n);
+    for (auto& [_, v] : mp) {
+      int m = v.size();
+      long long s = accumulate(v.begin(), v.end(), 0) - m * v[0];
+      ans[v[0]] = s;
+      for (int i = 1; i < m; i++) {
+        int d = v[i] - v[i - 1];
+        ans[v[i]] = ans[v[i - 1]] - (n - 2 * i) * d;
+      }
+    }
+    return ans;
+  }
+};
 
 // #define TXT
 int main() {

@@ -21,3 +21,9 @@ My initial goal is to finish some problems on codeforce or atcoder.
 1. [2646](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/) [Offline LCA + tree difference](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/solution/lei-si-da-jia-jie-she-iii-pythonjavacgo-4k3wq/)
 
 2. [337](https://leetcode.cn/problems/house-robber-iii/) dynamic programming in trees.
+
+3. [2642](https://leetcode.cn/problems/design-graph-with-shortest-path-calculator/) realtime dijkstra && offline floyd.
+
+4. [2615](https://leetcode.cn/problems/minimize-the-maximum-difference-of-pairs/) The sum of the absolute values of an ordinal series
+
+5. [2617](https://leetcode.cn/problems/minimum-number-of-visited-cells-in-a-grid/) Monotonic stack(pending)

@@ -8,6 +8,8 @@ using namespace std;
 #define rep(i, a, b, c) for (int i = (a); i <= (b); i += (c))
 #define per(i, a, b, c) for (int i = (a); i >= (b); i -= (c))
 // #define endl "\n"
+#define mp make_pair
+#define pb push_back
 #define vec vector
 using ll = long long;
 #define INF 0x3f3f3f3f
@@ -69,6 +71,32 @@ struct lnode {
 };
 
 // inputs.erase(remove(inputs.begin(), inputs.end(), '['), inputs.end());
+
+class Solution {
+  bool prime(int n) {
+    for (int i = 2; i * i <= n; i++)
+      if (n % i == 0) return false;
+    return n>=2;
+  }
+
+ public:
+  int diagonalPrime(vector<vector<int>>& nums) {
+    int n = nums.size();
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+      if (int x = nums[i][i]; x > ans && prime(x)) {
+        ans = x;
+      }
+      if (i == n - i - 1) {
+        continue;
+      }
+      if (int x = nums[i][n - i - 1]; x > ans && prime(x)) {
+        ans = x;
+      }
+    }
+    return ans;
+  }
+};
 
 // #define TXT
 int main() {
