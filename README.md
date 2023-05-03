@@ -6,11 +6,9 @@ And my basic template lies on [templat/template.cpp](./competeCoding/template/te
 
 If you have any question, please concat me via gmail.
 
-
 ## Goal
 
 My initial goal is to finish some problems on codeforce or atcoder.
-
 
 ## learning list
 
@@ -18,7 +16,8 @@ My initial goal is to finish some problems on codeforce or atcoder.
 
 2. BIT(Fenwick tree)
 
+### problems
 
-### problems 
+1. [2646](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/) [Offline LCA + tree difference](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/solution/lei-si-da-jia-jie-she-iii-pythonjavacgo-4k3wq/)
 
-1. [2646](https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/)
+2. [337](https://leetcode.cn/problems/house-robber-iii/) dynamic programming in trees.
