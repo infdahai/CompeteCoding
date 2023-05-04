@@ -73,8 +73,54 @@ struct lnode {
 class Solution {
  public:
   int minimumVisitedCells(vector<vector<int>>& grid) {
-    int m = grid.size();
-    int n = grid[0].size();
+    int n = grid.size(), m = grid[0].size();
+
+    set<int> R[n], C[m];
+
+    for (int i = 0; i < n; i++)
+      for (int j = 0; j < m; j++)
+        if (i + j > 0) {
+          R[i].insert(j);
+          C[j].insert(i);
+        }
+
+    int f[n][m];
+    memset(f, -1, sizeof(f));
+
+    using pii = pair<int, int>;
+    queue<pii> q;
+    q.push(pii(0, 0));
+    f[0][0] = 1;
+    while (!q.empty()) {
+      auto [i, j] = q.front();
+      q.pop();
+
+      auto it = R[i].upper_bound(j);
+      while (it != R[i].end()) {
+        if (*it > j + grid[i][j]) break;
+        q.push(pii(i, *it));
+        f[i][*it] = f[i][j] + 1;
+        C[*it].erase(i);
+        it = R[i].erase(it);
+      }
+
+      it = C[j].upper_bound(i);
+      while (it != C[j].end()) {
+        if (*it > i + grid[i][j]) break;
+        q.push(pii(*it, j));
+        f[*it][j] = f[i][j] + 1;
+        R[*it].erase(j);
+        it = C[j].erase(it);
+      }
+    }
+    return f[n - 1][m - 1];
+  }
+};
+
+class Solution1 {
+ public:
+  int minimumVisitedCells(vector<vector<int>>& grid) {
+    int m = grid.size(), n = grid[0].size();
     int mn = 0;
     vector<vector<pair<int, int>>> col_st(n);
     for (int i = m - 1; i >= 0; i--) {
@@ -95,20 +141,19 @@ class Solution {
           if (it < st2.end()) mn = min(mn, it->first);
         }
         if (mn == INT_MAX) continue;
-
         ++mn;
-        while (!st.empty() && mn <= st.back().first) st.pop_back();
+        while (!st.empty() && mn <= st.back().first) {
+          st.pop_back();
+        }
         st.emplace_back(mn, j);
-        while (!st2.empty() && mn <= st2.back().first) st2.pop_back();
+        while (!st.empty() && mn <= st2.back().first) {
+          st2.pop_back();
+        }
         st2.emplace_back(mn, i);
       }
     }
     return mn < INT_MAX ? mn : -1;
   }
-};
-
-class Solution1 {
-    
 };
 
 // #define TXT
@@ -118,7 +163,10 @@ int main() {
   freopen("in.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif  // TXT
-
+  auto sol = Solution();
+  vector<vector<int>> a = {
+      {3, 4, 2, 1}, {4, 2, 3, 1}, {2, 1, 0, 0}, {2, 4, 0, 0}};
+  sol.minimumVisitedCells(a);
 #ifdef TXT
   fclose(stdin);
   fclose(stdout);
